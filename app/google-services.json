@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "620786807271",
+    "project_id": "mycf-9adeb",
+    "storage_bucket": "mycf-9adeb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620786807271:android:64ddd34b7582f753f08d42",
+        "android_client_info": {
+          "package_name": "com.mycf.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9oUtmyeelW8-SDRjXAyb-5XALHZGUZVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
