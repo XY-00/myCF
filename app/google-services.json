@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "620786807271",
+    "firebase_url": "https://mycf-9adeb-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "mycf-9adeb",
     "storage_bucket": "mycf-9adeb.firebasestorage.app"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.mycf.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "620786807271-55k5ruit7gp6mdtdm5lovoduqh49v8mv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycf.app",
+            "certificate_hash": "a3e4ac60315c9cf4bc2ecf8ed534bc27b05c890f"
+          }
+        },
+        {
+          "client_id": "620786807271-8pl28rr3thob673koj2lja58jl9tnfb1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD9oUtmyeelW8-SDRjXAyb-5XALHZGUZVQ"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620786807271-8pl28rr3thob673koj2lja58jl9tnfb1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

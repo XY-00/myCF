@@ -112,6 +112,16 @@
             android:layout_height="50dp"
             android:text="Save"
             android:layout_marginStart="10dp"/>
+
+        <Button
+            android:id="@+id/btnSignOut"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Sign Out"
+            android:backgroundTint="#D32F2F"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="30dp" />
+
     </LinearLayout>
 
 </LinearLayout>

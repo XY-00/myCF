@@ -1,5 +1,6 @@
 package com.mycf.app
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -126,6 +127,27 @@ class MainActivity : AppCompatActivity() {
         // 7. 手动泵开关控制
         btnPumpOn.setOnClickListener { pumpRef.setValue("ON") }
         btnPumpOff.setOnClickListener { pumpRef.setValue("OFF") }
+
+        // 🎯 新增：初始化 Google Sign-In 客户端（用于彻底登出）
+        val gso = com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder(com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+        val googleSignInClient = com.google.android.gms.auth.api.signin.GoogleSignIn.getClient(this, gso)
+
+        val btnSignOut = findViewById<Button>(R.id.btnSignOut)
+        btnSignOut.setOnClickListener {
+            // 1. 登出 Firebase
+            FirebaseDatabase.getInstance().purgeOutstandingWrites() // 清除未完成的异步写入
+            com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
+
+            // 2. 登出 Google 账号（否则下次点 Google 登录不会弹出账号选择框）
+            googleSignInClient.signOut().addOnCompleteListener {
+                Toast.makeText(this, "Signed Out Successfully", Toast.LENGTH_SHORT).show()
+                // 3. 切回登录/注册页，并销毁主页
+                val intent = Intent(this, RegisterActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            }
+        }
     }
 
     // 自动化控制算法核心
