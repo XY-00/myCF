@@ -1,127 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center_horizontal">
+    android:background="#F4F6F1">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="myCF Dashboard"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        android:textColor="#FFFFFF"/>
-
-    <TextView
-        android:id="@+id/tvSoilMoisture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Soil Moisture: -- %"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="35dp"
-        android:textColor="#4CAF50"/>
-
-    <TextView
-        android:id="@+id/tvCurrentMode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Current Mode: Loading..."
-        android:textSize="16sp"
-        android:layout_marginTop="8dp"
-        android:textColor="#B0BEC5"/>
-
-    <TextView
-        android:id="@+id/tvPumpStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pump Status: Unknown"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginTop="12dp"
-        android:textColor="#FFB300"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mode Control"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginTop="45dp"/>
-
-    <RadioGroup
-        android:id="@+id/rgMode"
+    <FrameLayout
+        android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="12dp">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/mycf_bottom_navigation" />
 
-        <RadioButton
-            android:id="@+id/rbManual"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Manual"
-            android:checked="true"
-            android:layout_marginRight="20dp"/>
-
-        <RadioButton
-            android:id="@+id/rbAuto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Auto"/>
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/btnPumpOn"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/mycf_bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:text="Turn Pump ON"
-        android:layout_marginTop="20dp"/>
-
-    <Button
-        android:id="@+id/btnPumpOff"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:text="Turn Pump OFF"
-        android:layout_marginTop="10dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginTop="40dp">
-
-        <EditText
-            android:id="@+id/etThreshold"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:hint="Set Auto Threshold (%)"
-            android:inputType="number"
-            android:textSize="14sp"/>
-
-        <Button
-            android:id="@+id/btnSaveThreshold"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="Save"
-            android:layout_marginStart="10dp"/>
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btnSignOut"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="#D32F2F"
-        android:text="Sign Out"
-        android:textColor="#FFFFFF" />
-
-</LinearLayout>
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        app:itemIconTint="@color/mycf_primary"
+        app:itemTextColor="@color/mycf_primary"
+        app:menu="@menu/bottom_nav_menu" /> </RelativeLayout>
