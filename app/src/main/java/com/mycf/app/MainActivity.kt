@@ -3,7 +3,6 @@ package com.mycf.app
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
@@ -142,8 +141,7 @@ class MainActivity : AppCompatActivity() {
             googleSignInClient.signOut().addOnCompleteListener {
                 Toast.makeText(this, "Signed Out Successfully", Toast.LENGTH_SHORT).show()
                 // 3. 切回登录/注册页，并销毁主页
-                val intent = Intent(this, RegisterActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                val intent = Intent(this, AuthActivity::class.java)
                 startActivity(intent)
                 finish()
             }
