@@ -113,15 +113,15 @@
             android:text="Save"
             android:layout_marginStart="10dp"/>
 
-        <Button
-            android:id="@+id/btnSignOut"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:text="Sign Out"
-            android:backgroundTint="#D32F2F"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="30dp" />
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSignOut"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="#D32F2F"
+        android:text="Sign Out"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

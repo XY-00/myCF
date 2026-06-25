@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="mycf_bg">#F4F6F1</color> <!-- 整体淡绿色背景底色 -->
-    <color name="mycf_primary_green">#A7FFB5</color> <!-- 亮绿色按钮颜色 -->
-    <color name="mycf_text_dark">#1A1A1A</color> <!-- 墨黑色文字 -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="farm_bg">#F4F6F1</color>
+    <color name="farm_primary">#2E7D32</color>
+    <color name="farm_accent">#B2FAB4</color>
+    <color name="text_dark">#111111</color>
+    <color name="text_muted">#757575</color>
+    <color name="pump_off">#C62828</color>
 </resources>

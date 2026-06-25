@@ -29,9 +29,9 @@ class AuthActivity : AppCompatActivity() {
         val regFirstName = findViewById<TextInputEditText>(R.id.reg_first_name)
         val btnRegister = findViewById<MaterialButton>(R.id.btn_register)
 
-        // ======= 👑 药丸双标签点击动态切表面逻辑 =======
+        // ======= 👑 药丸双标签点击动态切换显示/隐藏逻辑 =======
         tabLogin.setOnClickListener {
-            // 选回 Log In 状态
+            // 切换回 Log In 状态
             tabLogin.setBackgroundResource(R.drawable.auth_tab_selector)
             tabLogin.setTextColor(android.graphics.Color.parseColor("#2E7D32"))
 
@@ -43,7 +43,7 @@ class AuthActivity : AppCompatActivity() {
         }
 
         tabSignup.setOnClickListener {
-            // 选到 Sign Up 状态
+            // 切换到 Sign Up 状态
             tabSignup.setBackgroundResource(R.drawable.auth_tab_selector)
             tabSignup.setTextColor(android.graphics.Color.parseColor("#2E7D32"))
 
@@ -54,7 +54,7 @@ class AuthActivity : AppCompatActivity() {
             containerSignup.visibility = View.VISIBLE
         }
 
-        // ======= 3. 处理登录点击跳转大厅 =======
+        // ======= 3. 处理登录点击并跳转进入主大厅 MainActivity =======
         btnLogin.setOnClickListener {
             val email = loginEmail.text.toString().trim()
             val password = loginPassword.text.toString().trim()
@@ -65,7 +65,7 @@ class AuthActivity : AppCompatActivity() {
                 Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
-                finish()
+                finish() // 销毁登录厅，防止用户按返回键倒流回登录页
             }
         }
 
@@ -76,8 +76,7 @@ class AuthActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter your first name", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Registration successful! Please Log In.", Toast.LENGTH_LONG).show()
-                // 模拟点击自动切回第一页让用户去登录
-                tabLogin.performClick()
+                tabLogin.performClick() // 自动模拟点击切回登录面板
             }
         }
     }
