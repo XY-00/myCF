@@ -1,9 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MyCF" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+    <!-- 👑 主题核心：强制继承 Base.Theme.MaterialComponents.DayNight.NoActionBar.Bridge -->
+    <!-- 我们在这里不使用动态 DayNight 变色，直接用核心属性把它的底色永久钉死在 Light 浅色上 -->
+    <style name="Theme.MyCF" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- 核心生态主色调与状态栏对齐 -->
+        <item name="colorPrimary">@color/mycf_primary</item>
+        <item name="colorPrimaryVariant">@color/mycf_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
 
-    <style name="Theme.MyCF" parent="Base.Theme.MyCF" />
+        <!-- 嫩芽卡片高亮辅助色 -->
+        <item name="colorSecondary">@color/mycf_accent</item>
+        <item name="colorSecondaryVariant">@color/mycf_accent</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- 👑 强制锁定：将大背景和卡片容器底色在任何时候都死死锁死在纯白和清爽浅色 -->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/mycf_text_dark</item>
+
+        <!-- 强制手机顶部的状态栏（Status Bar）图标变成黑色，防止在白底色下看不清时间 -->
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+    </style>
 </resources>

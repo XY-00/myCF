@@ -3,7 +3,7 @@ package com.mycf.app
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
+import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -17,73 +17,115 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
-        // 1. 绑定药丸标签切换控件与双表单面板容器
+        // 1. 绑定药丸切换状态标签
         val tabLogin = findViewById<TextView>(R.id.tab_login)
         val tabSignup = findViewById<TextView>(R.id.tab_signup)
         val containerLogin = findViewById<LinearLayout>(R.id.container_login)
         val containerSignup = findViewById<LinearLayout>(R.id.container_signup)
 
-        // 2. 绑定输入输入框
+        // 2. 绑定登录区输入框与动作按钮
         val loginEmailInput = findViewById<TextInputEditText>(R.id.login_email_input)
         val loginPasswordInput = findViewById<TextInputEditText>(R.id.login_password_input)
-
-        // 3. 绑定动作执行按钮与 Google 快捷认证 icon
+        val cbRememberMe = findViewById<CheckBox>(R.id.cb_remember_me)
         val btnActionLogin = findViewById<MaterialButton>(R.id.btn_action_login)
-        val btnActionRegister = findViewById<MaterialButton>(R.id.btn_action_register)
-        val btnGoogleAuth = findViewById<ImageButton>(R.id.btn_google_auth)
+        val btnGoogleAuth = findViewById<MaterialButton>(R.id.btn_google_auth)
 
-        // ======= 👑 药丸双标签点击来回完美切换面板逻辑 =======
+        // 3. 绑定注册区组件（全面清除了旧的 Phone 节点组件）
+        val regFirstNameInput = findViewById<TextInputEditText>(R.id.reg_first_name_input)
+        val regLastNameInput = findViewById<TextInputEditText>(R.id.reg_last_name_input)
+        val regEmailInput = findViewById<TextInputEditText>(R.id.reg_email_input)
+        val regPasswordInput = findViewById<TextInputEditText>(R.id.reg_password_input)
+        val regConfirmPasswordInput = findViewById<TextInputEditText>(R.id.reg_confirm_password_input) // 👑 绑定新确认密码框
+        val btnActionRegister = findViewById<MaterialButton>(R.id.btn_action_register)
+
+        // ======= 药丸卡片左右互切逻辑 =======
         tabLogin.setOnClickListener {
-            // 切回 Log In 表单状态
             tabLogin.setBackgroundResource(R.drawable.auth_tab_selector)
             tabLogin.setTextColor(android.graphics.Color.parseColor("#2E7D32"))
-
             tabSignup.setBackgroundResource(android.R.color.transparent)
             tabSignup.setTextColor(android.graphics.Color.parseColor("#757575"))
-
             containerLogin.visibility = View.VISIBLE
             containerSignup.visibility = View.GONE
         }
 
         tabSignup.setOnClickListener {
-            // 切到 Sign Up 表单状态
             tabSignup.setBackgroundResource(R.drawable.auth_tab_selector)
             tabSignup.setTextColor(android.graphics.Color.parseColor("#2E7D32"))
-
             tabLogin.setBackgroundResource(android.R.color.transparent)
             tabLogin.setTextColor(android.graphics.Color.parseColor("#757575"))
-
             containerLogin.visibility = View.GONE
             containerSignup.visibility = View.VISIBLE
         }
 
-        // ======= 🚀 处理 1:1 点击登录逻辑并跳转进入主系统 =======
+        // ======= 🚀 4. 处理具备防乱填校验的邮箱登录 =======
         btnActionLogin.setOnClickListener {
             val email = loginEmailInput.text.toString().trim()
             val password = loginPasswordInput.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please fill in all details", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Welcome to myCF!", Toast.LENGTH_SHORT).show()
-
-                // 🎯 核心通电：直接调用 Intent 跨入搭载 5 个图标底栏的 MainActivity！
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish() // 销毁登录注册卡片，防止用户按返回键回流
+                Toast.makeText(this, "Please fill in email and password!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                loginEmailInput.error = "Invalid Email Address Format!"
+                Toast.makeText(this, "Please check your email formatting!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (cbRememberMe.isChecked) {
+                Toast.makeText(this, "Remember me enabled", Toast.LENGTH_SHORT).show()
+            }
+
+            Toast.makeText(this, "Welcome to myCF!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
-        // ======= 🚀 处理注册按钮模拟成功逻辑 =======
+        // ======= 🚀 5. 核心看齐：注册表单全能校验（加持确认密码一致性安全锁） =======
         btnActionRegister.setOnClickListener {
-            Toast.makeText(this, "Sign Up Successful! Switching to Login.", Toast.LENGTH_LONG).show()
-            tabLogin.performClick() // 自动模拟点击切回登录界面让用户输入刚才注册的账号
+            val firstName = regFirstNameInput.text.toString().trim()
+            val lastName = regLastNameInput.text.toString().trim()
+            val email = regEmailInput.text.toString().trim()
+            val password = regPasswordInput.text.toString().trim()
+            val confirmPassword = regConfirmPasswordInput.text.toString().trim()
+
+            // A. 空白拦截
+            if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                Toast.makeText(this, "Error: All spaces are required!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // B. 邮箱地址防乱填拦截
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                regEmailInput.error = "Email address formatting error!"
+                Toast.makeText(this, "Format Error: Please input a real email format!", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            // C. 密码长度拦截（至少6位）
+            if (password.length < 6) {
+                regPasswordInput.error = "Password must be at least 6 characters long!"
+                Toast.makeText(this, "Failed: Password is too short (At least 6 chars)!", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            // D. 👑 核心安全锁：强力判断确认密码和原始密码是否长得一模一样
+            if (password != confirmPassword) {
+                regConfirmPasswordInput.error = "Passwords do not match!"
+                Toast.makeText(this, "Registration Error: Two passwords are not the same!", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            // E. 全部校验完美通关
+            Toast.makeText(this, "Registration successful! Welcome to myCF.", Toast.LENGTH_LONG).show()
+            tabLogin.performClick()
         }
 
-        // ======= 👑 处理 Google 图标点击快捷登录验证 =======
+        // ======= Google 快捷大按钮验证事件 =======
         btnGoogleAuth.setOnClickListener {
-            Toast.makeText(this, "Connecting with Google Account...", Toast.LENGTH_SHORT).show()
-            // 自动模拟登录成功，直接进入主厅
+            Toast.makeText(this, "Google Sign In Successful!", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
