@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#E8ECE4" /> <corners android:radius="25dp" /> </shape>
+    <!-- 👑 核心换色：大背景底色同步换成跟 Login 按钮一样的嫩绿色 -->
+    <solid android:color="#B2FAB4" />
+    <corners android:radius="25dp" />
+</shape>
