@@ -7,6 +7,11 @@
         android:title="Dashboard" />
 
     <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/my_ic_profile"
+        android:title="Profile" />
+
+    <item
         android:id="@+id/nav_analytic"
         android:icon="@drawable/my_ic_analytic"
         android:title="Analytic" />
@@ -15,11 +20,6 @@
         android:id="@+id/nav_eco"
         android:icon="@drawable/my_ic_eco"
         android:title="Report" />
-
-    <item
-        android:id="@+id/nav_profile"
-        android:icon="@drawable/my_ic_profile"
-        android:title="Profile" />
 
     <item
         android:id="@+id/nav_setting"
