@@ -26,14 +26,12 @@ import kotlinx.coroutines.launch
 
 class AuthActivity : AppCompatActivity() {
 
-    // 👑 引入真正的 Firebase 认证神经元
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
-        // 初始化 Firebase Auth
         auth = FirebaseAuth.getInstance()
         val credentialManager = CredentialManager.create(this)
 
@@ -48,7 +46,9 @@ class AuthActivity : AppCompatActivity() {
         val loginPasswordInput = findViewById<TextInputEditText>(R.id.login_password_input)
         val cbRememberMe = findViewById<CheckBox>(R.id.cb_remember_me)
         val btnActionLogin = findViewById<MaterialButton>(R.id.btn_action_login)
-        val btnGoogleAuth = findViewById<MaterialButton>(R.id.btn_google_auth)
+
+        // 👑 完美对接：指定类型为官方的原生组件 SignInButton
+        val btnGoogleAuth = findViewById<com.google.android.gms.common.SignInButton>(R.id.btn_google_auth)
 
         val layoutRegEmail = findViewById<TextInputLayout>(R.id.layout_reg_email)
         val layoutRegPassword = findViewById<TextInputLayout>(R.id.layout_reg_password)
@@ -61,7 +61,7 @@ class AuthActivity : AppCompatActivity() {
         val regConfirmPasswordInput = findViewById<TextInputEditText>(R.id.reg_confirm_password_input)
         val btnActionRegister = findViewById<MaterialButton>(R.id.btn_action_register)
 
-        // ======= 椭圆药丸互切状态机逻辑 =======
+        // ======= 药丸切换选择核心逻辑 =======
         tabLogin.setOnClickListener {
             tabLogin.setBackgroundResource(R.drawable.auth_tab_selector)
             tabLogin.setTextColor(android.graphics.Color.parseColor("#111111"))
@@ -80,7 +80,7 @@ class AuthActivity : AppCompatActivity() {
             containerSignup.visibility = View.VISIBLE
         }
 
-        // 默认开屏状态配置
+        // 初始化第一次载入药丸高亮
         tabLogin.post {
             tabLogin.setBackgroundResource(R.drawable.auth_tab_selector)
             tabLogin.setTextColor(android.graphics.Color.parseColor("#111111"))
@@ -88,7 +88,8 @@ class AuthActivity : AppCompatActivity() {
             tabSignup.setTextColor(android.graphics.Color.parseColor("#556B2F"))
         }
 
-        // ======= 📡 动态实时智能审查监听中枢 =======
+        // ======= 📡 弹性智能空间释放监听中枢 =======
+
         loginEmailInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -166,8 +167,7 @@ class AuthActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-
-        // ======= 🚀 1. 与 Firebase 真实连线：精准拆分定位错误登录 =======
+        // ======= 🚀 Firebase 连线：拆分独立报错登录 =======
         btnActionLogin.setOnClickListener {
             val email = loginEmailInput.text.toString().trim()
             val password = loginPasswordInput.text.toString().trim()
@@ -183,7 +183,6 @@ class AuthActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // 调用 Firebase 真实数据校验库
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -191,28 +190,24 @@ class AuthActivity : AppCompatActivity() {
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     } else {
-                        // 👑 核心：捕获 Firebase 扔出来的异常，并智能翻译转换输出
                         when (task.exception) {
                             is FirebaseAuthInvalidUserException -> {
-                                // Firebase 判定账号不存在
                                 layoutLoginEmail.isErrorEnabled = true
                                 layoutLoginEmail.error = "Email not found"
                             }
                             is FirebaseAuthInvalidCredentialsException -> {
-                                // Firebase 判定密码不匹配
                                 layoutLoginPassword.isErrorEnabled = true
                                 layoutLoginPassword.error = "Your password is invalid"
                             }
                             else -> {
-                                Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this, "Failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                             }
                         }
                     }
                 }
         }
 
-
-        // ======= 🚀 2. 与 Firebase 真实连线：一键往云端数据库注册新用户 =======
+        // ======= 🚀 Firebase 连线：新用户一键建立云端数据 =======
         btnActionRegister.setOnClickListener {
             val firstName = regFirstNameInput.text.toString().trim()
             val lastName = regLastNameInput.text.toString().trim()
@@ -229,12 +224,10 @@ class AuthActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // 发射到 Firebase Auth 云端建立数据
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         Toast.makeText(this, "Sign Up Successful! Please log in.", Toast.LENGTH_LONG).show()
-                        // 注册成功自动归位到登录页面
                         tabLogin.performClick()
                     } else {
                         Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
@@ -242,12 +235,11 @@ class AuthActivity : AppCompatActivity() {
                 }
         }
 
-
-        // ======= 🚀 3. 与 Firebase 真实连线：一键拉起 Google 原生系统弹窗并进行 Firebase 绑定账户 =======
+        // ======= 🚀 Firebase 连线：拉起一键 Google 登录系统级弹窗 =======
         btnGoogleAuth.setOnClickListener {
             val googleIdOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
-                .setServerClientId("729227563124-mockid.apps.googleusercontent.com") // 💡 提示：项目上线时可以在 Firebase Console 的 Google Provider 下复制 Web Client ID 粘贴到这里
+                .setServerClientId("620786807271-8pl28rr3thob673koj2lja58jl9tnfb1.apps.googleusercontent.com")
                 .setAutoSelectEnabled(false)
                 .build()
 
@@ -267,7 +259,6 @@ class AuthActivity : AppCompatActivity() {
                         val googleIdTokenCredential = credential
                         val idToken = googleIdTokenCredential.idToken
 
-                        // 👑 把系统返回的 Google ID 令牌传入 Firebase 凭据中转站进行云端一键登录绑定！
                         val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
                         auth.signInWithCredential(firebaseCredential)
                             .addOnCompleteListener(this@AuthActivity) { task ->
@@ -277,7 +268,7 @@ class AuthActivity : AppCompatActivity() {
                                     startActivity(Intent(this@AuthActivity, MainActivity::class.java))
                                     finish()
                                 } else {
-                                    Toast.makeText(this@AuthActivity, "Firebase link failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this@AuthActivity, "Firebase login link failed", Toast.LENGTH_SHORT).show()
                                 }
                             }
                     }

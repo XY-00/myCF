@@ -65,7 +65,7 @@
                             android:background="@drawable/auth_tab_selector"
                             android:gravity="center"
                             android:text="Log In"
-                            android:textColor="#2C3E50"
+                            android:textColor="#111111"
                             android:textStyle="bold"
                             android:clickable="true"
                             android:focusable="true"/>
@@ -78,7 +78,7 @@
                             android:background="@android:color/transparent"
                             android:gravity="center"
                             android:text="Sign Up"
-                            android:textColor="#6E7A91"
+                            android:textColor="#556B2F"
                             android:textStyle="bold"
                             android:clickable="true"
                             android:focusable="true"/>
@@ -185,17 +185,19 @@
                             android:layout_marginTop="20dp"
                             android:layout_marginBottom="16dp"/>
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_google_auth"
+                        <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:text="Continue with Google"
-                            android:textColor="#333333"
-                            android:textSize="14sp"
-                            app:backgroundTint="#FFFFFF"
-                            app:strokeColor="#CCCCCC"
-                            app:strokeWidth="1dp"
-                            app:cornerRadius="25dp" />
+                            android:layout_height="54dp"
+                            android:layout_marginTop="4dp"
+                            app:cardCornerRadius="27dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="@android:color/transparent">
+
+                            <com.google.android.gms.common.SignInButton
+                                android:id="@+id/btn_google_auth"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
                     <LinearLayout
